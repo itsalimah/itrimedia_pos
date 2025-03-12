@@ -1,0 +1,36 @@
+<!-- filepath: /Users/ali/Desktop/code/projects_js/itrimedia_pos/admin.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebSocket Admin</title>
+</head>
+<body>
+  <h1>WebSocket Admin</h1>
+  <input type="text" id="messageInput" placeholder="Enter message">
+  <button onclick="sendMessage()">Send Message</button>
+  <script>
+    const ws = new WebSocket(`ws://${window.location.hostname}:3000`);
+    ws.onopen = () => {
+      console.log('Connected to WebSocket server');
+    };
+    ws.onmessage = (event) => {
+      console.log('Message from server:', event.data);
+    };
+    ws.onclose = () => {
+      console.log('Disconnected from WebSocket server');
+    };
+    const messageInput = document.getElementById('messageInput');
+    function sendMessage() {
+      const message = messageInput.value;
+      ws.send(message);
+    }
+    addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        sendMessage();
+      }
+    });
+  </script>
+</body>
+</html>
